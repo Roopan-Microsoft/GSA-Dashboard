@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSA Unified Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/css/fabric.min.css">
+    <style>
+        :root {
+            --colorNeutralBackground1: #FAF9F8;
+            --colorNeutralBackground2: #FFFFFF;
+            --colorNeutralBackground3: #F3F2F1;
+            --colorNeutralBackground4: #EDEBE9;
+            --colorNeutralForeground1: #242424;
+            --colorNeutralForeground2: #424242;
+            --colorNeutralForeground3: #616161;
+            --colorNeutralForegroundDisabled: #A19F9D;
+            --colorNeutralStroke1: #E1DFDD;
+            --colorNeutralStroke2: #EDEBE9;
+            --colorBrandBackground: #0078D4;
+            --colorBrandBackgroundPressed: #005A9E;
+            --colorBrandForeground1: #0078D4;
+            --colorStatusDangerForeground1: #004E8C;
+            --colorStatusDangerBackground1: #E8F1FA;
+            --colorPaletteOrangeForeground: #0F548C;
+            --colorPaletteOrangeBackground: #EBF3FC;
+            --colorStatusWarningForeground1: #2B6CB0;
+            --colorStatusWarningBackground1: #EFF6FC;
+            --colorStatusSuccessForeground1: #107C10;
+            --colorStatusSuccessBackground1: #F1FAF1;
+            --colorNeutralForegroundNote: #4A8BC2;
+            --colorNeutralBackgroundNote: #EFF6FC;
+            --shadow2: 0 1px 2px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.04);
+            --shadow4: 0 2px 4px rgba(0,0,0,0.07), 0 0 1px rgba(0,0,0,0.05);
+            --shadow8: 0 4px 8px rgba(0,0,0,0.08), 0 0 2px rgba(0,0,0,0.04);
+            --borderRadiusLarge: 8px;
+            --borderRadiusXLarge: 12px;
+            --fontFamilyBase: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+            --bg: var(--colorNeutralBackground1);
+            --surface: var(--colorNeutralBackground2);
+            --surface2: var(--colorNeutralBackground3);
+            --border: var(--colorNeutralStroke1);
+            --borderSubtle: var(--colorNeutralStroke2);
+            --text: var(--colorNeutralForeground1);
+            --textSecondary: var(--colorNeutralForeground2);
+            --textTertiary: var(--colorNeutralForeground3);
+            --accent: var(--colorBrandForeground1);
+            --critical: var(--colorStatusDangerForeground1);
+            --high: var(--colorPaletteOrangeForeground);
+            --medium: var(--colorStatusWarningForeground1);
+            --low: var(--colorStatusSuccessForeground1);
+            --note: var(--colorNeutralForegroundNote);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--fontFamilyBase);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        .header {
+            background: linear-gradient(135deg, #0F2027 0%, #0078D4 50%, #00BCF2 100%);
+        }
+        .header-band {
+            background: rgba(0,0,0,0.12);
+            padding: 10px 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ms-logo {
+            display: grid;
+            grid-template-columns: 10px 10px;
+            grid-template-rows: 10px 10px;
+            gap: 2px;
+        }
+        .ms-logo .sq1 { background: #F25022; }
+        .ms-logo .sq2 { background: #7FBA00; }
+        .ms-logo .sq3 { background: #00A4EF; }
+        .ms-logo .sq4 { background: #FFB900; }
+        .ms-logo span { display: block; }
+        .header-content {
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 26px 28px 30px;
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .header h1 {
+            color: #fff;
+            font-size: 30px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-subtitle, .header-meta {
+            color: rgba(255,255,255,0.84);
+            font-size: 13px;
+        }
+        .header-meta { text-align: right; }
+        .container {
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 28px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .tab-button {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--textSecondary);
+            padding: 10px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: var(--shadow2);
+        }
+        .tab-button.active {
+            background: var(--colorBrandBackground);
+            color: #fff;
+            border-color: var(--colorBrandBackground);
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--borderSubtle);
+            border-radius: var(--borderRadiusXLarge);
+            padding: 20px 22px;
+            box-shadow: var(--shadow4);
+        }
+        .kpi-value { font-size: 34px; font-weight: 700; }
+        .kpi-label {
+            color: var(--textTertiary);
+            font-size: 12px;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+        }
+        .kpi-subtext { color: var(--textTertiary); font-size: 12px; margin-top: 6px; }
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+        .chart-card, .table-card {
+            background: var(--surface);
+            border: 1px solid var(--borderSubtle);
+            border-radius: var(--borderRadiusXLarge);
+            box-shadow: var(--shadow4);
+            overflow: hidden;
+        }
+        .chart-card h3, .table-header h3 {
+            padding: 18px 20px 0;
+            font-size: 18px;
+        }
+        .table-header {
+            padding: 0 20px 14px;
+            border-bottom: 1px solid var(--borderSubtle);
+        }
+        .chart-container {
+            height: 320px;
+            padding: 16px 18px 18px;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 18px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .badge {
+            background: var(--surface2);
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 12px;
+            color: var(--textSecondary);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th, td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--borderSubtle);
+            text-align: left;
+            vertical-align: top;
+        }
+        thead th {
+            color: var(--textTertiary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--surface);
+            position: sticky;
+            top: 0;
+        }
+        tr:hover td { background: #FCFCFB; }
+        .repo-name { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .repo-name:hover { text-decoration: underline; }
+        .text-wrap { max-width: 420px; word-break: break-word; }
+        .sev-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+        .sev-badge.critical { background: var(--colorStatusDangerBackground1); color: var(--critical); }
+        .sev-badge.high { background: var(--colorPaletteOrangeBackground); color: var(--high); }
+        .sev-badge.medium { background: var(--colorStatusWarningBackground1); color: var(--medium); }
+        .sev-badge.low { background: var(--colorStatusSuccessBackground1); color: var(--low); }
+        .sev-badge.note { background: var(--colorNeutralBackgroundNote); color: var(--note); }
+        .sev-badge.clean { background: var(--colorStatusSuccessBackground1); color: var(--low); }
+        .risk-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 11px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .risk-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block;
+        }
+        .risk-indicator.risk-critical { background: var(--colorStatusDangerBackground1); color: var(--critical); }
+        .risk-indicator.risk-high { background: var(--colorPaletteOrangeBackground); color: var(--high); }
+        .risk-indicator.risk-medium { background: var(--colorStatusWarningBackground1); color: var(--medium); }
+        .risk-indicator.risk-low { background: var(--colorStatusSuccessBackground1); color: var(--low); }
+        .bar-cell { min-width: 200px; }
+        .severity-bar {
+            height: 10px;
+            border-radius: 999px;
+            background: #e8e8e8;
+            overflow: hidden;
+            display: flex;
+        }
+        .seg-brand { background: linear-gradient(90deg, #0078D4, #00BCF2); }
+        .footer {
+            text-align: center;
+            color: var(--textTertiary);
+            font-size: 12px;
+            padding: 24px 0 16px;
+        }
+        @media (max-width: 900px) {
+            .header-content { flex-direction: column; align-items: flex-start; }
+            .header-meta { text-align: left; }
+            .container { padding: 18px; }
+            th, td { padding: 10px; }
+            .text-wrap { max-width: 260px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-band">
+            <div class="ms-logo">
+                <span class="sq1"></span><span class="sq2"></span>
+                <span class="sq3"></span><span class="sq4"></span>
+            </div>
+            <span style="color:white;font-size:13px;font-weight:600;">Microsoft</span>
+        </div>
+        <div class="header-content">
+            <div>
+                <h1><span style="font-size:30px;">📊</span> GSA Unified Portfolio Dashboard</h1>
+                <div class="header-subtitle">Issue tracking, security posture, and cross-repo operational overview</div>
+            </div>
+            <div class="header-meta">
+                <div>14 repositories tracked</div>
+                <div>Issue tracker state: 11 Jun 2026 · 05:23 PM IST</div>
+                <div>Security state: 11 Jun 2026 · 08:16 PM IST</div>
+                <div>Last updated: 11 Jun 2026 · 08:16 PM IST</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button active" data-tab="overview">Overview</button>
+            <button class="tab-button" data-tab="issues">Issue Tracking</button>
+            <button class="tab-button" data-tab="security">Security &amp; Code Quality</button>
+        </div>
+
+        <section class="tab-panel active" id="overview">
+            <div class="kpi-row">
+                <div class="kpi-card"><div class="kpi-value">17</div><div class="kpi-label">Open Issues</div><div class="kpi-subtext">0 overdue follow-ups</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Dependabot Alerts</div><div class="kpi-subtext">0 code scanning alerts</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Total Security Findings</div><div class="kpi-subtext">0 bug-labeled issues</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">High Attention Repos</div><div class="kpi-subtext">14 total repositories</div></div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-card"><h3>Portfolio Activity by Repository</h3><div class="chart-container"><canvas id="overviewRepoChart"></canvas></div></div>
+                <div class="chart-card"><h3>Owner Workload</h3><div class="chart-container"><canvas id="ownerWorkloadChart"></canvas></div></div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-card"><h3>Dependabot Ecosystem Mix</h3><div class="chart-container"><canvas id="ecosystemChart"></canvas></div></div>
+                <div class="chart-card"><h3>Issue Mix</h3><div class="chart-container"><canvas id="issueTypeChart"></canvas></div></div>
+            </div>
+
+            <div class="section-title">Portfolio Health <span class="badge">14 repositories</span></div>
+            <div class="table-card">
+                <div class="table-header"><h3>Combined Repository View</h3></div>
+                <table>
+                    <thead><tr><th>Repository</th><th>Issues</th><th>Overdue</th><th>Dependabot</th><th>Code Scanning</th><th>Risk</th><th>Primary Owner</th></tr></thead>
+                    <tbody><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator" target="_blank">CWYD</a></td><td>11</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-medium"><span class="risk-dot"></span>Medium</span></td><td>Ajit Padhi</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator" target="_blank">MACAE</a></td><td>4</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-medium"><span class="risk-dot"></span>Medium</span></td><td>Dhruvkumar Babariya</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator" target="_blank">DKM</a></td><td>2</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-medium"><span class="risk-dot"></span>Medium</span></td><td>Priyanka Singhal</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/customer-chatbot-solution-accelerator" target="_blank">Customer Chatbot</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Ajit Padhi</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Modernize-your-code-solution-accelerator" target="_blank">Code Modernization</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Priyanka Singhal</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Container-Migration-Solution-Accelerator" target="_blank">Container Migration</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Shreyas Waikar</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/content-generation-solution-accelerator" target="_blank">Content Generation</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Ragini Chauragade</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/content-processing-solution-accelerator" target="_blank">Content Processing</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Shreyas Waikar</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Data-and-Agent-Governance-and-Security-Accelerator" target="_blank">Data &amp; Agent Governance</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Saswato Chatterjee</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Deploy-Your-AI-Application-In-Production" target="_blank">Deploy AI App</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Saswato Chatterjee</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/agentic-applications-for-unified-data-foundation-solution-accelerator" target="_blank">Agentic App</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Ragini Chauragade</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Conversation-Knowledge-Mining-Solution-Accelerator" target="_blank">KM Generic</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Pavan Kumar</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/unified-data-foundation-with-fabric-solution-accelerator" target="_blank">UDF</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Saswato Chatterjee</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/real-time-intelligence-operations-solution-accelerator" target="_blank">RTI</a></td><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td>Saswato Chatterjee</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="tab-panel" id="issues">
+            <div class="kpi-row">
+                <div class="kpi-card"><div class="kpi-value">17</div><div class="kpi-label">Open Issues</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Bug Labeled</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Enhancements</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Overdue Follow-ups</div></div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-card"><h3>Open Issues by Repository</h3><div class="chart-container"><canvas id="issueRepoChart"></canvas></div></div>
+                <div class="chart-card"><h3>Issue Classification</h3><div class="chart-container"><canvas id="issueTypeChartSecondary"></canvas></div></div>
+            </div>
+
+            <div class="section-title">Repository Summary <span class="badge">17 open</span></div>
+            <div class="table-card">
+                <div class="table-header"><h3>Owner Assignment and Follow-up Status</h3></div>
+                <table>
+                    <thead><tr><th>Repository</th><th>Open</th><th>Bugs</th><th>Enhancements</th><th>Other</th><th>Overdue</th><th>Oldest</th><th>Primary Owner</th><th>Secondary Owner</th><th>Last Checked</th></tr></thead>
+                    <tbody><tr><td><a class="repo-name" href="https://github.com/microsoft/customer-chatbot-solution-accelerator" target="_blank">Customer Chatbot</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Ajit Padhi</td><td>Prajwal D C</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Modernize-your-code-solution-accelerator" target="_blank">Code Modernization</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Priyanka Singhal</td><td>Shreyas Waikar</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Container-Migration-Solution-Accelerator" target="_blank">Container Migration</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Shreyas Waikar</td><td>Priyanka Singhal</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/content-generation-solution-accelerator" target="_blank">Content Generation</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Ragini Chauragade</td><td>Pavan Kumar</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/content-processing-solution-accelerator" target="_blank">Content Processing</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Shreyas Waikar</td><td>Ajit Padhi</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator" target="_blank">CWYD</a></td><td><strong>11</strong></td><td>0</td><td>0</td><td>11</td><td><span class="sev-badge clean">0</span></td><td>631d</td><td>Ajit Padhi</td><td>Priyanka Singhal</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Data-and-Agent-Governance-and-Security-Accelerator" target="_blank">Data &amp; Agent Governance</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Saswato Chatterjee</td><td>Yamini</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Deploy-Your-AI-Application-In-Production" target="_blank">Deploy AI App</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Saswato Chatterjee</td><td>Yamini</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator" target="_blank">DKM</a></td><td><strong>2</strong></td><td>0</td><td>0</td><td>2</td><td><span class="sev-badge clean">0</span></td><td>86d</td><td>Priyanka Singhal</td><td>Ajit Padhi</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/agentic-applications-for-unified-data-foundation-solution-accelerator" target="_blank">Agentic App</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Ragini Chauragade</td><td>Pavan Kumar</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Conversation-Knowledge-Mining-Solution-Accelerator" target="_blank">KM Generic</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Pavan Kumar</td><td>Avijit Ghorui</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/unified-data-foundation-with-fabric-solution-accelerator" target="_blank">UDF</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Saswato Chatterjee</td><td>Yamini</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator" target="_blank">MACAE</a></td><td><strong>4</strong></td><td>0</td><td>0</td><td>4</td><td><span class="sev-badge clean">0</span></td><td>322d</td><td>Dhruvkumar Babariya</td><td>Abdul Mujeeb T A</td><td>11 Jun 2026 · 05:23 PM IST</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/real-time-intelligence-operations-solution-accelerator" target="_blank">RTI</a></td><td><strong>0</strong></td><td>0</td><td>0</td><td>0</td><td><span class="sev-badge clean">0</span></td><td>0d</td><td>Saswato Chatterjee</td><td>Yamini</td><td>11 Jun 2026 · 05:23 PM IST</td></tr></tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Open Issue Detail <span class="badge">Top 75 by age</span></div>
+            <div class="table-card">
+                <div class="table-header"><h3>Tracked Issues</h3></div>
+                <table>
+                    <thead><tr><th>Issue</th><th>Repository</th><th>Title</th><th>Reported By</th><th>Labels</th><th>Age</th><th>Status</th><th>ADO Bug</th></tr></thead>
+                    <tbody><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1327" target="_blank">#1327</a></td><td>CWYD</td><td class="text-wrap">parameters to use existing search, openai and storage account</td><td>guyyardeni</td><td>—</td><td>631d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1391" target="_blank">#1391</a></td><td>CWYD</td><td class="text-wrap">The managed identity configuration is invalid: Managed identity is not enabled for the current resource -- Document Intelligence</td><td>jmasengeshomsft</td><td>—</td><td>611d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1433" target="_blank">#1433</a></td><td>CWYD</td><td class="text-wrap">Support for multiple AI Search index calls / Documentation support for Semantic Kernel orchestration strategy</td><td>strudel0209</td><td>—</td><td>597d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1435" target="_blank">#1435</a></td><td>CWYD</td><td class="text-wrap">Tables from word documents are not read</td><td>andrewwiebe</td><td>—</td><td>594d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1620" target="_blank">#1620</a></td><td>CWYD</td><td class="text-wrap">Enable feedback to cosmos DB</td><td>edgBR</td><td>—</td><td>519d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1632" target="_blank">#1632</a></td><td>CWYD</td><td class="text-wrap">Automatic follow-up questions in the chat</td><td>cristofima</td><td>—</td><td>504d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1746" target="_blank">#1746</a></td><td>CWYD</td><td class="text-wrap">chat history is not working when using the Teams extension</td><td>concertoroberto</td><td>—</td><td>432d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/1756" target="_blank">#1756</a></td><td>CWYD</td><td class="text-wrap">Enhancement: move from azure.ai.formrecognizer package to azure.ai.documentintelligence</td><td>federicocaccialanzaabb</td><td>—</td><td>407d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator/issues/345" target="_blank">#345</a></td><td>MACAE</td><td class="text-wrap">Support Adjust Plan</td><td>unique94</td><td>—</td><td>322d</td><td><span class="sev-badge low">Low</span></td><td><a href="https://dev.azure.com/CSACTOSOL/03e03490-e6d3-4222-9888-dfe81f0e986a/_workitems/edit/39446" target="_blank">ADO #39446</a></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator/issues/362" target="_blank">#362</a></td><td>MACAE</td><td class="text-wrap">I’d like you to take a look.</td><td>ghost</td><td>—</td><td>313d</td><td><span class="sev-badge low">Low</span></td><td><a href="https://dev.azure.com/CSACTOSOL/03e03490-e6d3-4222-9888-dfe81f0e986a/_workitems/edit/39443" target="_blank">ADO #39443</a></td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/2093" target="_blank">#2093</a></td><td>CWYD</td><td class="text-wrap">Implement a useful re-ranking strategy through azureSearchUseSemanticSearch</td><td>bobome-ola</td><td>—</td><td>111d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator/issues/826" target="_blank">#826</a></td><td>MACAE</td><td class="text-wrap">Unable to use Foundry Agent?</td><td>so-akire</td><td>—</td><td>108d</td><td><span class="sev-badge low">Low</span></td><td><a href="https://dev.azure.com/CSACTOSOL/03e03490-e6d3-4222-9888-dfe81f0e986a/_workitems/edit/39441" target="_blank">ADO #39441</a></td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/2103" target="_blank">#2103</a></td><td>CWYD</td><td class="text-wrap">Implement more efficient chunking strategies</td><td>bobome-ola</td><td>—</td><td>104d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator/issues/2112" target="_blank">#2112</a></td><td>CWYD</td><td class="text-wrap">Support for GPT-5 / GPT-5.1 models in chat-with-your-data-solution-accelerator?</td><td>ogis-ando-m</td><td>—</td><td>99d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator/issues/569" target="_blank">#569</a></td><td>DKM</td><td class="text-wrap">Internal Use</td><td>quietobserver1</td><td>—</td><td>86d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator/issues/568" target="_blank">#568</a></td><td>DKM</td><td class="text-wrap">App Registration - security</td><td>quietobserver1</td><td>—</td><td>86d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator/issues/940" target="_blank">#940</a></td><td>MACAE</td><td class="text-wrap">Migrating to Azure Kubernetes Service (AKS)</td><td>sudino</td><td>—</td><td>51d</td><td><span class="sev-badge low">Low</span></td><td>—</td></tr></tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Primary Owner Load</div>
+            <div class="table-card">
+                <div class="table-header"><h3>Open Issue Distribution</h3></div>
+                <table>
+                    <thead><tr><th>Owner</th><th>Open Issues</th><th>Relative Load</th></tr></thead>
+                    <tbody><tr><td>Ajit Padhi</td><td><strong>11</strong></td><td><div class="bar-cell"><div class="severity-bar" style="width:180px"><div class="seg-brand" style="width:100%"></div></div></div></td></tr><tr><td>Dhruvkumar Babariya</td><td><strong>4</strong></td><td><div class="bar-cell"><div class="severity-bar" style="width:65px"><div class="seg-brand" style="width:100%"></div></div></div></td></tr><tr><td>Priyanka Singhal</td><td><strong>2</strong></td><td><div class="bar-cell"><div class="severity-bar" style="width:33px"><div class="seg-brand" style="width:100%"></div></div></div></td></tr><tr><td>Shreyas Waikar</td><td><strong>0</strong></td><td><div class="bar-cell"><div class="severity-bar" style="width:4px"><div class="seg-brand" style="width:100%"></div></div></div></td></tr><tr><td>Ragini Chauragade</td><td><strong>0</strong></td><td><div class="bar-cell"><div class="severity-bar" style="width:4px"><div class="seg-brand" style="width:100%"></div></div></div></td></tr><tr><td>Saswato Chatterjee</td><td><strong>0</strong></td><td><div class="bar-cell"><div class="severity-bar" style="width:4px"><div class="seg-brand" style="width:100%"></div></div></div></td></tr><tr><td>Pavan Kumar</td><td><strong>0</strong></td><td><div class="bar-cell"><div class="severity-bar" style="width:4px"><div class="seg-brand" style="width:100%"></div></div></div></td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="tab-panel" id="security">
+            <div class="kpi-row">
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">All Open Findings</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Dependabot Alerts</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Code Scanning Alerts</div></div>
+                <div class="kpi-card"><div class="kpi-value">0</div><div class="kpi-label">Critical + High Dependabot</div></div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-card"><h3>Dependabot Severity Breakdown</h3><div class="chart-container"><canvas id="dependabotSeverityChart"></canvas></div></div>
+                <div class="chart-card"><h3>Code Scanning Categories</h3><div class="chart-container"><canvas id="codeCategoryChart"></canvas></div></div>
+            </div>
+
+            <div class="section-title">Repository Security Summary <span class="badge">0 findings</span></div>
+            <div class="table-card">
+                <div class="table-header"><h3>Dependabot and Code Scanning by Repository</h3></div>
+                <table>
+                    <thead><tr><th>Repository</th><th>Dependabot</th><th>Dependabot Severity</th><th>Dependabot Risk</th><th>Code Scanning</th><th>Code Categories</th><th>Code Risk</th></tr></thead>
+                    <tbody><tr><td><a class="repo-name" href="https://github.com/microsoft/customer-chatbot-solution-accelerator" target="_blank">Customer Chatbot</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Modernize-your-code-solution-accelerator" target="_blank">Code Modernization</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Container-Migration-Solution-Accelerator" target="_blank">Container Migration</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/content-generation-solution-accelerator" target="_blank">Content Generation</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/content-processing-solution-accelerator" target="_blank">Content Processing</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator" target="_blank">CWYD</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Data-and-Agent-Governance-and-Security-Accelerator" target="_blank">Data &amp; Agent Governance</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Deploy-Your-AI-Application-In-Production" target="_blank">Deploy AI App</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator" target="_blank">DKM</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/agentic-applications-for-unified-data-foundation-solution-accelerator" target="_blank">Agentic App</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Conversation-Knowledge-Mining-Solution-Accelerator" target="_blank">KM Generic</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/unified-data-foundation-with-fabric-solution-accelerator" target="_blank">UDF</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator" target="_blank">MACAE</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr><tr><td><a class="repo-name" href="https://github.com/microsoft/real-time-intelligence-operations-solution-accelerator" target="_blank">RTI</a></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td><td><strong>0</strong></td><td><span class="sev-badge note">Unavailable</span></td><td><span class="risk-indicator risk-low"><span class="risk-dot"></span>Low</span></td></tr></tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Dependabot Detail <span class="badge">Top 50</span></div>
+            <div class="table-card">
+                <div class="table-header"><h3>Open Dependabot Alerts</h3></div>
+                <table>
+                    <thead><tr><th>Repository</th><th>Alert</th><th>Severity</th><th>Package</th><th>Ecosystem</th><th>Summary</th><th>Created</th></tr></thead>
+                    <tbody><tr><td colspan="7">No Dependabot alerts available.</td></tr></tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Code Scanning Detail <span class="badge">Top 50</span></div>
+            <div class="table-card">
+                <div class="table-header"><h3>Open Code Scanning Alerts</h3></div>
+                <table>
+                    <thead><tr><th>Repository</th><th>Alert</th><th>Severity</th><th>Category</th><th>Rule Id</th><th>Rule</th><th>Path</th></tr></thead>
+                    <tbody><tr><td colspan="7">No code scanning alerts available.</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="footer">Data sourced from issue tracker state and GitHub security APIs · Generated 11 Jun 2026 · 08:16 PM IST</div>
+    </div>
+
+    <script>
+        const fluentBrand = '#0078D4';
+        const fluentBrandLight = '#83BDE6';
+        const fluentDanger = '#004E8C';
+        const fluentOrange = '#0F548C';
+        const fluentWarning = '#2B6CB0';
+        const fluentSuccess = '#107C10';
+        const fluentNote = '#4A8BC2';
+        const fluentTextMuted = '#616161';
+        const fluentGridColor = 'rgba(0,0,0,0.06)';
+        Chart.defaults.color = fluentTextMuted;
+        Chart.defaults.borderColor = fluentGridColor;
+        Chart.defaults.font = { family: "'Segoe UI', sans-serif" };
+
+        const charts = [];
+        charts.push(new Chart(document.getElementById('overviewRepoChart'), {
+            type: 'bar',
+            data: {
+                labels: ["Chatbot", "Modernize", "Container Mig", "Content Gen", "Content Proc", "CWYD", "Governance", "Deploy AI App", "DKM", "Agentic App", "CKM", "UDF", "MACAE", "RTI"],
+                datasets: [
+                    { label: 'Open Issues', data: [0, 0, 0, 0, 0, 11, 0, 0, 2, 0, 0, 0, 4, 0], backgroundColor: fluentBrand, borderRadius: 4 },
+                    { label: 'Dependabot', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], backgroundColor: fluentBrandLight, borderRadius: 4 },
+                    { label: 'Code Scanning', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], backgroundColor: '#B4D5EE', borderRadius: 4 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        }));
+        charts.push(new Chart(document.getElementById('ownerWorkloadChart'), {
+            type: 'bar',
+            data: {
+                labels: ["Ajit Padhi", "Dhruvkumar Babariya", "Priyanka Singhal", "Shreyas Waikar", "Ragini Chauragade", "Saswato Chatterjee", "Pavan Kumar"],
+                datasets: [{ label: 'Open Issues', data: [11, 4, 2, 0, 0, 0, 0], backgroundColor: fluentBrand, borderRadius: 4 }]
+            },
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        }));
+        charts.push(new Chart(document.getElementById('ecosystemChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ["n/a"],
+                datasets: [{ data: [1], backgroundColor: [fluentBrand, fluentBrandLight, '#B4D5EE', '#D7EBFA'] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        }));
+        const issueTypeData = [0, 0, 17];
+        charts.push(new Chart(document.getElementById('issueTypeChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Bug', 'Enhancement', 'Other'],
+                datasets: [{ data: issueTypeData, backgroundColor: [fluentDanger, fluentSuccess, fluentBrand] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        }));
+        charts.push(new Chart(document.getElementById('issueRepoChart'), {
+            type: 'bar',
+            data: {
+                labels: ["Chatbot", "Modernize", "Container Mig", "Content Gen", "Content Proc", "CWYD", "Governance", "Deploy AI App", "DKM", "Agentic App", "CKM", "UDF", "MACAE", "RTI"],
+                datasets: [{ label: 'Open Issues', data: [0, 0, 0, 0, 0, 11, 0, 0, 2, 0, 0, 0, 4, 0], backgroundColor: fluentBrand, borderRadius: 4 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        }));
+        charts.push(new Chart(document.getElementById('issueTypeChartSecondary'), {
+            type: 'pie',
+            data: {
+                labels: ['Bug', 'Enhancement', 'Other'],
+                datasets: [{ data: issueTypeData, backgroundColor: [fluentDanger, fluentSuccess, fluentBrand] }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        }));
+        charts.push(new Chart(document.getElementById('dependabotSeverityChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Critical', 'High', 'Medium', 'Low'],
+                datasets: [{
+                    data: [0, 0, 0, 0],
+                    backgroundColor: [fluentDanger, fluentOrange, fluentWarning, fluentSuccess]
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        }));
+        charts.push(new Chart(document.getElementById('codeCategoryChart'), {
+            type: 'bar',
+            data: {
+                labels: ["Chatbot", "Modernize", "Container Mig", "Content Gen", "Content Proc", "CWYD", "Governance", "Deploy AI App", "DKM", "Agentic App", "CKM", "UDF", "MACAE", "RTI"],
+                datasets: [
+                    {
+                        label: 'Standard',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: fluentOrange,
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Microsoft Pack',
+                        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: '#B4D5EE',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } }, plugins: { legend: { position: 'bottom' } } }
+        }));
+
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(item => item.classList.remove('active'));
+                tabPanels.forEach(item => item.classList.remove('active'));
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+                setTimeout(() => charts.forEach(chart => chart.resize()), 50);
+            });
+        });
+    </script>
+</body>
+</html>

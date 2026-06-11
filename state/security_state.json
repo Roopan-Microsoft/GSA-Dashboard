@@ -1,0 +1,663 @@
+{
+  "generated_at": "2026-06-11T14:46:55.667395+00:00",
+  "scan_started_at": "2026-06-11T14:46:29.552105+00:00",
+  "scan_duration_seconds": 26.12,
+  "repo_count": 14,
+  "repos": [
+    {
+      "name": "Customer Chatbot",
+      "owner": "microsoft",
+      "repo": "customer-chatbot-solution-accelerator",
+      "repo_key": "microsoft/customer-chatbot-solution-accelerator",
+      "repo_url": "https://github.com/microsoft/customer-chatbot-solution-accelerator",
+      "primary_owner": "Ajit Padhi",
+      "secondary_owner": "Prajwal D C",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "Code Modernization",
+      "owner": "microsoft",
+      "repo": "Modernize-your-code-solution-accelerator",
+      "repo_key": "microsoft/Modernize-your-code-solution-accelerator",
+      "repo_url": "https://github.com/microsoft/Modernize-your-code-solution-accelerator",
+      "primary_owner": "Priyanka Singhal",
+      "secondary_owner": "Shreyas Waikar",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "Container Migration",
+      "owner": "microsoft",
+      "repo": "Container-Migration-Solution-Accelerator",
+      "repo_key": "microsoft/Container-Migration-Solution-Accelerator",
+      "repo_url": "https://github.com/microsoft/Container-Migration-Solution-Accelerator",
+      "primary_owner": "Shreyas Waikar",
+      "secondary_owner": "Priyanka Singhal",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "Content Generation",
+      "owner": "microsoft",
+      "repo": "content-generation-solution-accelerator",
+      "repo_key": "microsoft/content-generation-solution-accelerator",
+      "repo_url": "https://github.com/microsoft/content-generation-solution-accelerator",
+      "primary_owner": "Ragini Chauragade",
+      "secondary_owner": "Pavan Kumar",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "Content Processing",
+      "owner": "microsoft",
+      "repo": "content-processing-solution-accelerator",
+      "repo_key": "microsoft/content-processing-solution-accelerator",
+      "repo_url": "https://github.com/microsoft/content-processing-solution-accelerator",
+      "primary_owner": "Shreyas Waikar",
+      "secondary_owner": "Ajit Padhi",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "CWYD",
+      "owner": "Azure-Samples",
+      "repo": "chat-with-your-data-solution-accelerator",
+      "repo_key": "Azure-Samples/chat-with-your-data-solution-accelerator",
+      "repo_url": "https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator",
+      "primary_owner": "Ajit Padhi",
+      "secondary_owner": "Priyanka Singhal",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "Data & Agent Governance",
+      "owner": "microsoft",
+      "repo": "Data-and-Agent-Governance-and-Security-Accelerator",
+      "repo_key": "microsoft/Data-and-Agent-Governance-and-Security-Accelerator",
+      "repo_url": "https://github.com/microsoft/Data-and-Agent-Governance-and-Security-Accelerator",
+      "primary_owner": "Saswato Chatterjee",
+      "secondary_owner": "Yamini",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "Deploy AI App",
+      "owner": "microsoft",
+      "repo": "Deploy-Your-AI-Application-In-Production",
+      "repo_key": "microsoft/Deploy-Your-AI-Application-In-Production",
+      "repo_url": "https://github.com/microsoft/Deploy-Your-AI-Application-In-Production",
+      "primary_owner": "Saswato Chatterjee",
+      "secondary_owner": "Yamini",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "DKM",
+      "owner": "microsoft",
+      "repo": "Document-Knowledge-Mining-Solution-Accelerator",
+      "repo_key": "microsoft/Document-Knowledge-Mining-Solution-Accelerator",
+      "repo_url": "https://github.com/microsoft/Document-Knowledge-Mining-Solution-Accelerator",
+      "primary_owner": "Priyanka Singhal",
+      "secondary_owner": "Ajit Padhi",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "Agentic App",
+      "owner": "microsoft",
+      "repo": "agentic-applications-for-unified-data-foundation-solution-accelerator",
+      "repo_key": "microsoft/agentic-applications-for-unified-data-foundation-solution-accelerator",
+      "repo_url": "https://github.com/microsoft/agentic-applications-for-unified-data-foundation-solution-accelerator",
+      "primary_owner": "Ragini Chauragade",
+      "secondary_owner": "Pavan Kumar",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "KM Generic",
+      "owner": "microsoft",
+      "repo": "Conversation-Knowledge-Mining-Solution-Accelerator",
+      "repo_key": "microsoft/Conversation-Knowledge-Mining-Solution-Accelerator",
+      "repo_url": "https://github.com/microsoft/Conversation-Knowledge-Mining-Solution-Accelerator",
+      "primary_owner": "Pavan Kumar",
+      "secondary_owner": "Avijit Ghorui",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "UDF",
+      "owner": "microsoft",
+      "repo": "unified-data-foundation-with-fabric-solution-accelerator",
+      "repo_key": "microsoft/unified-data-foundation-with-fabric-solution-accelerator",
+      "repo_url": "https://github.com/microsoft/unified-data-foundation-with-fabric-solution-accelerator",
+      "primary_owner": "Saswato Chatterjee",
+      "secondary_owner": "Yamini",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "MACAE",
+      "owner": "microsoft",
+      "repo": "Multi-Agent-Custom-Automation-Engine-Solution-Accelerator",
+      "repo_key": "microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator",
+      "repo_url": "https://github.com/microsoft/Multi-Agent-Custom-Automation-Engine-Solution-Accelerator",
+      "primary_owner": "Dhruvkumar Babariya",
+      "secondary_owner": "Abdul Mujeeb T A",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    },
+    {
+      "name": "RTI",
+      "owner": "microsoft",
+      "repo": "real-time-intelligence-operations-solution-accelerator",
+      "repo_key": "microsoft/real-time-intelligence-operations-solution-accelerator",
+      "repo_url": "https://github.com/microsoft/real-time-intelligence-operations-solution-accelerator",
+      "primary_owner": "Saswato Chatterjee",
+      "secondary_owner": "Yamini",
+      "dependabot": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "ecosystem_counts": {},
+        "alerts": [],
+        "risk_level": "low"
+      },
+      "code_scanning": {
+        "available": false,
+        "status": "error",
+        "error": "Authentication required",
+        "total_open": 0,
+        "severity_counts": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "warning": 0,
+          "note": 0,
+          "error": 0
+        },
+        "category_counts": {
+          "standard": 0,
+          "microsoft_pack": 0
+        },
+        "alerts": [],
+        "risk_level": "low"
+      }
+    }
+  ],
+  "totals": {
+    "dependabot_open": 0,
+    "code_scanning_open": 0,
+    "all_open_findings": 0,
+    "dependabot_severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "code_scanning_severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "warning": 0,
+      "note": 0,
+      "error": 0
+    },
+    "ecosystem_counts": {},
+    "code_scanning_category_counts": {
+      "standard": 0,
+      "microsoft_pack": 0
+    }
+  }
+}
