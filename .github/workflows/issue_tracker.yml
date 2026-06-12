@@ -1,1 +1,59 @@
+name: Issue Tracker
 
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: issue-tracker
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  track-issues:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -q -r requirements.txt
+
+      - name: Run issue tracker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ADO_PAT: ${{ secrets.ADO_PAT }}
+          ADO_ORG: ${{ vars.ADO_ORG || 'CSACTOSOL' }}
+          ADO_PROJECT: ${{ vars.ADO_PROJECT || 'CSA Solutioning' }}
+          ADO_AREA_PATH: ${{ vars.ADO_AREA_PATH || 'CSA Solutioning\Engineering - Tech Debt - Maintenance' }}
+          ADO_PARENT_US_ID: ${{ vars.ADO_PARENT_US_ID || '36885' }}
+          POWER_AUTOMATE_EMAIL_URL: ${{ secrets.POWER_AUTOMATE_EMAIL_URL }}
+          POWER_AUTOMATE_TEAMS_URL: ${{ secrets.POWER_AUTOMATE_TEAMS_URL }}
+          TEAMS_CHAT_ID: ${{ vars.TEAMS_CHAT_ID }}
+          SENDER_EMAIL: ${{ vars.SENDER_EMAIL }}
+          CC_EMAILS: ${{ vars.CC_EMAILS }}
+          FOLLOWUP_DEADLINE_DAYS: ${{ vars.FOLLOWUP_DEADLINE_DAYS || '2' }}
+          REMINDER_RESEND_HOURS: ${{ vars.REMINDER_RESEND_HOURS || '2' }}
+          STATE_FILE: ${{ github.workspace }}/state/tracked_issues_state.json
+        run: python src/issue_tracker/run_tracker.py
+
+      - name: Commit updated issue state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/tracked_issues_state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update issue tracker state [skip ci]"
+            git push
+          fi
