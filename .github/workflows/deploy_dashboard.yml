@@ -1,65 +1,66 @@
 name: Deploy Dashboard
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows:
-      - Issue Tracker
-      - Security Scanner
-    types:
-      - completed
+   workflow_dispatch:
+   workflow_run:
+     workflows:
+       - Issue Tracker
+       - Security Scanner
+     types:
+       - completed
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+   contents: read
+   pages: write
+   id-token: write
 
 concurrency:
-  group: deploy-dashboard
-  cancel-in-progress: true
+   group: deploy-dashboard
+   cancel-in-progress: true
 
 jobs:
-  build:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install -q -r requirements.txt
-
-      - name: Generate unified dashboard
-        env:
-          ISSUE_STATE_FILE: ${{ github.workspace }}/state/tracked_issues_state.json
-          SECURITY_STATE_FILE: ${{ github.workspace }}/state/security_state.json
-          OUTPUT_HTML: ${{ github.workspace }}/_site/index.html
-          FOLLOWUP_DEADLINE_DAYS: ${{ vars.FOLLOWUP_DEADLINE_DAYS || '2' }}
-        run: |
-          mkdir -p _site
-          python src/dashboard/generate_dashboard.py
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+   build:
+     runs-on: ubuntu-latest
+     timeout-minutes: 15
+ 
+     steps:
+       - name: Checkout
+         uses: actions/checkout@v4
+         with:
+           ref: main
+ 
+       - name: Set up Python
+         uses: actions/setup-python@v5
+         with:
+           python-version: "3.12"
+           cache: pip
+ 
+       - name: Install dependencies
+         run: pip install -q -r requirements.txt
+ 
+       - name: Generate unified dashboard
+         env:
+           ISSUE_STATE_FILE: ${{ github.workspace }}/state/tracked_issues_state.json
+           SECURITY_STATE_FILE: ${{ github.workspace }}/state/security_state.json
+           OUTPUT_HTML: ${{ github.workspace }}/_site/index.html
+           FOLLOWUP_DEADLINE_DAYS: ${{ vars.FOLLOWUP_DEADLINE_DAYS || '2' }}
+         run: |
+           mkdir -p _site
+           python src/dashboard/generate_dashboard.py
+ 
+       - name: Upload Pages artifact
+         uses: actions/upload-pages-artifact@v3
+         with:
+           path: _site
+           
+   deploy:
+     needs: build
+     runs-on: ubuntu-latest
+     environment:
+       name: github-pages
+       url: ${{ steps.deployment.outputs.page_url }}
+ 
+     steps:
+       - name: Deploy to GitHub Pages
+         id: deployment
+         uses: actions/deploy-pages@v4
