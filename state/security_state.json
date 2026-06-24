@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-24T03:53:49.284026+00:00",
-  "scan_started_at": "2026-06-24T03:53:38.884878+00:00",
-  "scan_duration_seconds": 10.4,
+  "generated_at": "2026-06-24T09:36:45.229337+00:00",
+  "scan_started_at": "2026-06-24T09:36:37.302664+00:00",
+  "scan_duration_seconds": 7.93,
   "repo_count": 14,
   "repos": [
     {
@@ -7021,7 +7021,7 @@
       "dependabot": {
         "available": false,
         "status": "error",
-        "error": "Authentication required",
+        "error": "400: {\"message\":\"Pagination using the `page` parameter is not supported.\",\"documentation_url\":\"https://docs.github.com/rest/dependabot/alerts#list-dependabot-alerts-for-a-repository\",\"status\":\"400\"}",
         "total_open": 0,
         "severity_counts": {
           "critical": 0,
